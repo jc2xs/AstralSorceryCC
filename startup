@@ -1,0 +1,155 @@
+-- This program is designed for use with Thaumcraft 6 and Astral Sorcer for MC 1.12.2
+
+-- Eclipse Day - Change this constant to the day an eclipse occurred.
+-- You can get the curernt day from CC using the os.day() command at the lua prompt
+eclipseConstant = 17
+
+-- Get the external display and internal displays (use a 3 x 3 monitor)
+mon = peripheral.find("monitor")
+oldMon = term.redirect(mon)
+
+-- File names array - These are images to be displayed for each moon.
+moonFiles = {
+    "FullMoon.img",
+    "WanningGibbus.img",
+    "ThirdQuarter.img",
+    "WanningCresent.img",
+    "NewMoon.img",
+    "WaxingCresent.img",
+    "FirstQuarter.img",
+    "WaxingGibbus.img" }
+
+-- Moon names/descriptions - Thisis also the order they appear in vanilla minecraft
+moonNames = {
+    "Full Moon",
+    "Wanning Gibbus",
+    "Third Quarter",
+    "Wanning Cresent",
+    "New Moon",
+    "Waxing Cresent",
+    "First Quarter",
+    "Waxxing Gibbus" }
+
+-- Data for constellations
+-- The order in the array below matches the moonNames and has the constellation name at the end of each line in the array.
+-- 1 indicates the constellation will be visable that night.  0 indicates no constellation that night.
+-- NOTE: Due to Horologium's special nature it isn't in the array and is calculated in another function.
+constellations = {}
+constellations[1] = {}
+constellations[1] = {1,1,1,0,0,0,1,1,"Aevitas"} -- moon phases - 1 == visable
+constellations[2] = {}
+constellations[2] = {0,1,1,1,1,1,0,0,"Vicio"} -- moon phases - 1 == visable
+constellations[3] = {}
+constellations[3] = {0,0,1,1,1,1,1,0,"Armara"} -- moon phases - 1 == visable
+constellations[4] = {}
+constellations[4] = {0,0,1,1,1,1,1,0,"Evorsio"} -- moon phases - 1 == visable
+constellations[5] = {}
+constellations[5] = {1,1,0,0,0,1,1,1,"Discidia"} -- moon phases - 1 == visable
+constellations[6] = {}
+constellations[6] = {0,1,1,1,1,1,0,0,"Lucerna"} -- moon phases - 1 == visable
+constellations[7] = {}
+constellations[7] = {1,0,0,0,1,1,1,1,"Octans"} -- moon phases - 1 == visable
+constellations[8] = {}
+constellations[8] = {1,1,1,1,0,0,0,1,"Bootes"} -- moon phases - 1 == visable
+constellations[9] = {}
+constellations[9] = {0,0,0,1,1,1,1,1,"Mineralis"} -- moon phases - 1 == visable
+constellations[10] = {}
+constellations[10] = {1,0,0,0,1,0,0,0,"Pelotrio"} -- moon phases - 1 == visable
+constellations[11] = {}
+constellations[11] = {1,1,0,0,0,1,1,1,"Fornax"} -- moon phases - 1 == visable
+constellations[12] = {}
+constellations[12] = {0,0,0,1,0,0,0,1,"Alcara"} -- moon phases - 1 == visable
+constellations[13] = {}
+constellations[13] = {0,1,1,1,0,0,0,0,"Gelu"} -- moon phases - 1 == visable
+constellations[14] = {}
+constellations[14] = {0,0,0,0,1,1,1,0,"Vorux"} -- moon phases - 1 == visable
+constellations[15] = {}
+constellations[15] = {0,1,0,0,0,0,1,1,"Ulteria"} -- moon phases - 1 == visable
+
+
+function getMoonCycle()  -- this function will return the minecraft moon day from 1 to 8
+    local mc = os.day() % 8
+    if mc == 0 then
+        mc = 8
+    end -- end if
+    return mc
+end -- end getMooncycle function
+
+function getEclipseDay()  --  eclipses happen every 36 days
+    local ec = (os.day() - eclipseConstant) % 36
+    ec = 36 - ec
+    return ec
+end -- end getEclipseDay function
+
+function displayMoon()
+    local md = getMoonCycle()
+    mon.setBackgroundColor(colors.black)
+    mon.clear()
+	image = paintutils.loadImage(moonFiles[md])
+    term.redirect(mon)
+    paintutils.drawImage(image, 14, 1)
+    mon.setBackgroundColor(colors.black)
+    term.setTextColor(colors.white)
+    term.setCursorPos(14, 10)
+    term.write(moonNames[md])
+    term.redirect(oldMon)
+end -- diplayMoon
+
+function displayEclipse()
+    local ed = getEclipseDay()
+    local edStr = "Eclipse is in " .. ed .." days."
+    term.redirect(mon)
+    term.setTextColor(colors.white)
+    if ed == 36 then
+        edStr = "Eclipse is today!"
+        paintutils.drawFilledBox(14, 12, 34, 16, colors.red)
+        term.setCursorPos(16, 14)
+    elseif ed == 1 then
+        edStr = "Eclipse is in 1 day."
+        paintutils.drawFilledBox(14, 12, 37, 16, colors.yellow)
+        term.setCursorPos(16, 14)
+        term.setTextColor(colors.black)
+    elseif ed < 4 then
+        paintutils.drawFilledBox(14, 12, 38, 16, colors.yellow)
+        term.setCursorPos(16, 14)
+        term.setTextColor(colors.black)
+    else
+        term.setCursorPos(14, 14)
+    end
+    term.write(edStr)
+    term.setTextColor(colors.white)
+    term.redirect(oldMon)
+end
+
+function displayConstellations()
+    local ed = getEclipseDay()
+    local mc = getMoonCycle()
+    term.redirect(mon)
+    term.setBackgroundColor(colors.black)
+    term.setCursorPos(1,1)
+    for k,v in ipairs(constellations) do
+        if v[mc] == 0 then
+            term.setTextColor(colors.gray)
+        else
+            term.setTextColor(colors.white)
+        end
+        print(v[9])
+    end
+    if ed == 36 then
+        term.setTextColor(colors.white)
+    else
+        term.setTextColor(colors.gray)
+    end
+    print("Horologium")
+        
+    term.setTextColor(colors.white)
+    term.redirect(oldMon)
+end -- displayConstellations
+
+-- main loop
+while true do
+    displayMoon()
+    displayEclipse()
+    displayConstellations()
+    sleep(60)  -- update every minute
+end
