@@ -1,5 +1,5 @@
 # This is a Minecraft 1.12.2 ComputerCraft program to predict moon phases and constellations for Astral Sorcery and Thaumcraft 6.  Part of the constellation prediction is tracking the solar eclipses.
-This program should support later versions of Minecraft and Astral Sorcery.  I am not sure the constellation data will be correct for those versions.
+This program should support later versions of Minecraft and Astral Sorcery.  I am not sure the constellation data will be correct for those versions.  I did verify the data is correct for Minecraft 1.12.2.
 
 In order to use this program you will need an advanced computer and 9 advanced monitors from ComputerCraft. Download the **startup** file and the 8 ComputerCraft **img** files from this git and transfer them all to your computer inside the game.
 
