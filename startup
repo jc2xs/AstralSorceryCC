@@ -4,7 +4,7 @@
 -- You can get the curernt day from CC using the os.day() command at the lua prompt
 eclipseConstant = 17
 
--- Get the external display and internal displays (use a 3 x 3 monitor)
+-- Get the external display and internal displays (use a 3 x 4 monitor)
 mon = peripheral.find("monitor")
 oldMon = term.redirect(mon)
 
