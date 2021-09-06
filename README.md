@@ -3,7 +3,7 @@ This program should support later versions of Minecraft and Astral Sorcery.  I a
 
 In order to use this program you will need an advanced computer and 9 advanced monitors from ComputerCraft. Download the **startup** file and the 8 ComputerCraft **img** files from this git and transfer them all to your computer inside the game.
 
-In the game stack the monitors into the 3x3 wall.  Place the computer touching one of the monitors (any side except the monitor front should work).
+In the game stack the monitors into the 3x4 wall.  Place the computer touching one of the monitors (any side except the monitor front should work).
 Then you will need to know the day when an eclipse occurs.  Easiest way to get it is typing in the following on the computer the day you see an eclipse.
 ```
 lua
